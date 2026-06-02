@@ -1,0 +1,296 @@
+/* *========================================
+      * FONTS *
+*======================================== */
+/* rubik-300 - latin */
+@font-face {
+  font-display: swap;
+  font-family: "Rubik";
+  font-style: normal;
+  font-weight: 300;
+  src: url("../fonts/rubik-v31-latin-300.woff2") format("woff2");
+}
+/* rubik-regular - latin */
+@font-face {
+  font-display: swap;
+  font-family: "Rubik";
+  font-style: normal;
+  font-weight: 400;
+  src: url("../fonts/rubik-v31-latin-regular.woff2") format("woff2");
+}
+/* rubik-italic - latin */
+@font-face {
+  font-display: swap;
+  font-family: "Rubik";
+  font-style: italic;
+  font-weight: 400;
+  src: url("../fonts/rubik-v31-latin-italic.woff2") format("woff2");
+}
+/* rubik-500 - latin */
+@font-face {
+  font-display: swap;
+  font-family: "Rubik";
+  font-style: normal;
+  font-weight: 500;
+  src: url("../fonts/rubik-v31-latin-500.woff2") format("woff2");
+}
+
+/* *========================================
+      * VARIABLES *
+*======================================== */
+:root {
+  /* ---=== color ===--- */
+  --clr-bg: hsl(220, 37%, 97%);
+  --clr-title-category: var(--clr-blue-900);
+
+  --clr-white: hsl(0, 0%, 100%);
+  --clr-black: hsl(0, 0%, 0%);
+  --clr-grey-500: hsl(219, 13%, 44%);
+  --clr-blue-50: hsl(225, 100%, 96%);
+  --clr-blue-100: hsl(220, 50%, 95%);
+  --clr-blue-300: hsl(216, 47%, 78%);
+  --clr-blue-500: hsl(223, 100%, 59%);
+  --clr-blue-850: hsl(215, 27%, 32%);
+  --clr-blue-900: hsl(216, 25%, 25%);
+  --clr-blue-950: hsl(214, 24%, 23%);
+  --clr-green-100: hsl(151, 88%, 94%);
+  --clr-green-500: hsl(151, 68%, 52%);
+  --clr-purple-100: hsl(278, 100%, 95%);
+  --clr-purple-600: hsl(277, 91%, 56%);
+  --clr-orange-50: hsl(27, 100%, 96%);
+  --clr-orange-400: hsl(22, 100%, 60%);
+  --clr-red-500: hsl(0, 82%, 63%);
+
+  .darkmode {
+    --clr-bg: hsl(216, 25%, 25%);
+    --clr-title-category: var(--clr-white);
+  }
+
+  /* ---=== fonts ===--- */
+  --ff-base: "Rubik", sans-serif;
+
+  /** fonts size  */
+  --fs-14: 0.8125rem;
+  --fs-18: 1.125rem;
+  --fs-20: 1.25rem;
+  --fs-24: 1.5rem;
+  --fs-28: 1.75rem;
+  --fs-36: 2.25rem;
+  --fs-40: 2.5rem;
+  --fs-64: 4rem;
+  --fs-88: 5.5rem;
+  --fs-144: 9rem;
+
+  /** fonts weigth  */
+  --fw-light: 300;
+  --fw-regular: 400;
+  --fw-medium: 500;
+
+  /** line height */
+  --lh-fs14: 150%;
+  --lh-fs18: 100%;
+  --lh-fs20-mobile: 120%;
+  --lh-fs20: 150%;
+  --lh-fs24: 150%;
+  --lh-fs28: 100%;
+  --lh-fs36: 120%;
+  --lh-fs40: 100%;
+  --lh-fs64: 100%;
+  --lh-fs88: 100%;
+  --lh-fs144: 100%;
+
+  /* ---=== Icons ===--- */
+  --icon-size-themes: 24px;
+  --icon-size-themes-mobile: 16px;
+  --icon-size-category-mobile: 25px;
+  --icon-size-category: 40px;
+
+  /* ---=== GAP ===--- */
+  --gap-themes: 1rem;
+  --gap-themes-mobile: 0.5rem;
+
+  /* ---=== CHECKBOX TOOGLE/SWITCH ===--- */
+  --check-toggle-size-with: 48px;
+  --check-toogle-size-height: 28px;
+  --check-toggle-back-size-mobile: 32px;
+  --check-toggle-back-size-mobile: 20px;
+}
+
+/* *========================================
+      * RESET *
+*======================================== */
+*,
+::after,
+::before {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+img,
+svg {
+  /* max-width: 100%; */
+  display: block;
+}
+
+h1,
+h2,
+h3 {
+  padding: 0;
+}
+
+button {
+  appearance: none;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+}
+
+/* *========================================
+      * COMPONENTS *
+*======================================== */
+/* ---=== Input ===--- */
+/** Checkbox toggle/switch */
+input[type="checkbox"] {
+  appearance: none;
+
+  position: relative;
+  width: 32px;
+  height: 20px;
+  background-color: var(--clr-purple-600);
+  border-radius: 10px;
+  transition: background-color 0.2s;
+  cursor: pointer;
+}
+input[type="checkbox"]::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+  height: 12px;
+  width: 12px;
+  border-radius: 6px;
+  background-color: var(--clr-white);
+  transition: left 0.2s;
+}
+input[type="checkbox"]:checked::after {
+  left: 70%;
+}
+
+/* *========================================
+      * BASE *
+*======================================== */
+body {
+  background-color: var(--clr-bg);
+  font-family: var(--ff-base);
+  font-size: var(--fs-18);
+  line-height: var(--lh-fs18);
+  font-weight: var(--fw-medium);
+}
+
+/* *========================================
+      * HEADER *
+*======================================== */
+.container {
+  width: 100%;
+  padding: 1rem 1.5rem;
+}
+
+/* ---=== NAV ===--- */
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/** Nav categories  */
+.nav__categories {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.icon__category-container {
+  width: 40px;
+  height: 40px;
+  background-color: var(--clr-purple-100);
+  border-radius: 8px;
+
+  display: grid;
+  place-content: center;
+}
+.icon__category {
+  width: var(--icon-size-category-mobile);
+}
+.title__category {
+  color: var(--clr-title-category);
+}
+
+/** Nav toggle themes  */
+.nav__themes {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-themes-mobile);
+}
+/* Icons */
+.icon__switch-sun svg {
+  width: var(--icon-size-themes-mobile);
+  fill: var(--clr-grey-500);
+}
+.darkmode .icon__switch-sun svg {
+  fill: var(--clr-white);
+}
+.icon__switch-moon svg {
+  width: var(--icon-size-themes-mobile);
+  fill: var(--clr-grey-500);
+}
+.darkmode .icon__switch-moon svg {
+  fill: var(--clr-white);
+}
+/* Checkbox */
+.theme__switch {
+  cursor: pointer;
+}
+
+/* *========================================
+      * MEDIA *
+*======================================== */
+@media (min-width: 768px) {
+  /* ---=== NAV ===--- */
+  /** Checkbox toggle/switch */
+  input[type="checkbox"] {
+    width: 48px;
+    height: 28px;
+    border-radius: 14px;
+  }
+  input[type="checkbox"]::after {
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+  }
+
+  /** Nav categories  */
+  .icon__category-container {
+    width: 56px;
+    height: 56px;
+  }
+  .icon__category {
+    width: var(--icon-size-category);
+  }
+  .title__category {
+    font-size: var(--fs-28);
+    line-height: var(--lh-fs28);
+  }
+
+  /** Nav toggle themes  */
+  .icon__switch-sun svg {
+    width: var(--icon-size-themes);
+  }
+  .icon__switch-moon svg {
+    width: var(--icon-size-themes);
+  }
+}
