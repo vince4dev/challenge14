@@ -25,7 +25,7 @@
       <!-- ---=== CATEGORY ICON + TITLE ===--- -->
       <section id="categories" class="nav__categories">
         <!--* ICON CATEGORY *-->
-        <div class="category__icon icon__accessibility">
+        <div class="cat__icon icon__accessibility">
           <img src="./assets/images/icon-accessibility.svg" alt="" />
         </div>
         <!--* TITLE CATEGORY *-->
@@ -117,7 +117,7 @@
                     * MAIN *
     *=========================================* -->
     <main id="quiz" class="quiz__container">
-      <!-- ---=== QUIZ QUESTION ===--- -->
+      <!-- ---=== SECTION QUESTION ===--- -->
       <section class="quiz__header">
         <div class="quiz__text">
           <p class="quiz__progress">
@@ -130,7 +130,7 @@
         <input id="progress-bar" type="range" min="1" max="10" value="1" />
       </section>
 
-      <!-- ---=== QUIZ CHOOSE RESPONSE ===--- -->
+      <!-- ---=== SECTION ANSWERS ===--- -->
       <section class="quiz__answers">
         <div id="quiz-options" class="choose">
           <!-- answer buttons -->
@@ -147,11 +147,44 @@
           </div>
         </div>
       </section>
+
+      <!-- ---=== SECTION SCORE ===--- -->
+      <section id="score" class="quiz__score">
+        <!-- TITLE SCORE -->
+        <div class="title">
+          <span>Quiz completed</span>
+          <h1>You scored...</h1>
+        </div>
+
+        <div class="screen__score-container">
+          <div id="screen-score" class="screen__score">
+            <!-- ICON + CATEFGORY -->
+            <div id="categories" class="nav__categories">
+              <!-- à paramétrer .... -->
+              <div class="cat__icon icon__accessibility">
+                <img src="./assets/images/icon-accessibility.svg" alt="" />
+              </div>
+              <p class="title__cat-score">Accessibility</p>
+              <!-- .... à paramétrer -->
+            </div>
+            <!-- SCORE -->
+            <div class="display__score">
+              <!-- à paramétrer .... -->
+              <h2>8</h2>
+              <!-- .... à paramétrer -->
+              <span>out of 10</span>
+            </div>
+          </div>
+
+          <button class="btn score__btn">Play Again</button>
+        </div>
+      </section>
     </main>
 
     <!-- *=========================================
                     * JAVASCRIPT *
     *=========================================* -->
+    <!-- <script type="module" src="/assets/js/main.js"></script> -->
     <script type="" src="/assets/js/ui.js"></script>
     <script type="" src="/assets/js/quiz.js"></script>
   </body>

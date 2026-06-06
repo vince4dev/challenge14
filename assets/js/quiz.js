@@ -19,10 +19,10 @@ async function loadQuizData() {
 // ------------------------------------------------------------------
 function showHome() {
   currentQuiz = null;
-  currentQuestionIndex = 0;
+  // currentQuestionIndex = 0;
 
   // hide quiz section
-  quiz.style.display = "none";
+  // quiz.style.display = "none";
 
   // Delete categories
   choose.innerHTML = "";
@@ -31,7 +31,7 @@ function showHome() {
   quizData.quizzes.forEach((quiz, idx) => {
     const btn = document.createElement("button");
     btn.className = "btn";
-    btn.innerHTML = `<div class="cat__icon icon__${quiz.title.toLowerCase()}"><img src="${quiz.icon}" alt="" /></div>${quiz.title}`;
+    btn.innerHTML = `<span class="cat__icon icon__${quiz.title.toLowerCase()}"><img src="${quiz.icon}" alt="" /></span>${quiz.title}`;
     btn.onclick = () => startQuiz(idx);
     choose.appendChild(btn);
   });
@@ -47,10 +47,10 @@ function startQuiz(catIndex) {
   // hide the category section
   home.style.display = "none";
   // show quiz section
-  quiz.style.display = "block";
+  quiz.style.display = "grid";
 
   currentQuiz = quizData.quizzes[catIndex];
-  currentQuestionIndex = 0;
+  // currentQuestionIndex = 0;
 
   showCurrentQuestion();
 }
@@ -84,7 +84,7 @@ function showCurrentQuestion() {
     // HTML escape
     const escapeOpt = escapeHtml(opt);
 
-    btn.innerHTML = `<div class="answer__status"><span class="cat__icon answer__icon">${letter}</span>${escapeOpt}</div>`;
+    btn.innerHTML = `<span class="answer__status"><span class="cat__icon answer__icon">${letter}</span>${escapeOpt}</span>`;
 
     // The answer and letter are stored in a dataset
     btn.dataset.value = opt;
@@ -138,41 +138,47 @@ function checkAnswer(selected) {
 // --- Click on Submit button
 // ------------------------------------------------------------------
 const submitBtn = document.getElementById("submit-btn");
-
-currentRangeIndex = valSpan.textContent;
+let rangeIdx = 0;
 
 submitBtn.addEventListener("click", () => {
   // We check if an answer is selected.
   const hasSelected = !!document.querySelector("#quiz-options .btn.selected");
+  // Check if selected answer
   if (!hasSelected) {
     errorMessage.style.display = "flex";
     return;
   }
 
-  // disabled submit button
-  // submitBtn.classList.remove("active");
-
   // Progress Bar
-  if (currentRangeIndex < parseInt(range.max, 10)) {
-    currentRangeIndex++;
-    range.value = currentRangeIndex;
-    valSpan.textContent = currentRangeIndex;
-    updatePercent(range);
-  }
+  let rangeIdx = progressBar(valSpan.textContent);
+  console.log(rangeIdx);
+  valSpan.textContent = rangeIdx;
 
   // Next question
   currentQuestionIndex++;
   if (currentQuestionIndex < currentQuiz.questions.length) {
     showCurrentQuestion();
   } else {
-    showfinishScreen();
+    showSore();
   }
 });
 
 // ------------------------------------------------------------------
 // --- Show a simple finish screen
 // ------------------------------------------------------------------
-function showfinishScreen() {}
+function showSore() {}
+
+// ------------------------------------------------------------------
+// --- Progress Bar
+// ------------------------------------------------------------------
+function progressBar(rangeIdx) {
+  if (rangeIdx < parseInt(range.max, 10)) {
+    rangeIdx++;
+    range.value = rangeIdx;
+    updatePercent(range);
+  }
+  return rangeIdx;
+}
 
 // ------------------------------------------------------------------
 // --- HTML escape
@@ -186,8 +192,8 @@ function escapeHtml(str) {
 // ------------------------------------------------------------------
 function createAnswerHTML(letter, value, iconURL) {
   return (
-    `<div class="answer__status"><span class="cat__icon answer__icon">${letter}</span>` +
-    `${value}</div>` +
+    `<span class="answer__status"><span class="cat__icon answer__icon">${letter}</span>` +
+    `${value}</span>` +
     `<img src="${iconURL}" class="icon__check"/>`
   );
 }

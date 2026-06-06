@@ -4,7 +4,10 @@ const valSpan = document.getElementById("current-val");
 const btnCategories = document.querySelectorAll(".btn-cat");
 
 let darkmode = localStorage.getItem("darkmode");
-let currentRangeIndex = 0;
+
+// document.addEventListener("DOMContentLoaded", () => {
+valSpan.textContent = 1;
+// });
 
 // --- DARKMODE ---
 const enabledDarkMode = () => {
@@ -57,32 +60,3 @@ function updatePercent(r) {
 
 // Initialize the value on load
 updatePercent(range);
-
-// Update when the user changes the range
-// range.addEventListener("input", () => updatePercent(range));
-
-// // --- JSON FETCH ---
-// async function loadQuizData() {
-//   const res = await fetch("../assets/data/quiz.json");
-//   quizData = await res.json();
-// }
-// loadQuizData();
-
-// // --- QUIZ QUESTIONS / RESPONSES ---
-// btnCategories.forEach((btn) => {
-//   btn.addEventListener("click", () => showQuiz(btn.dataset.cat));
-// });
-
-// let question;
-
-// function showQuiz(cat) {
-//   currentQuiz = quizData.quizzes.find((q) => q.title === cat);
-//   if (!currentQuiz) return;
-
-//   currentQuiz.questions
-//     .map((q, i) => {
-//       question = q.question;
-//     })
-//     .join("");
-//   console.log(question);
-// }
