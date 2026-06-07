@@ -23,7 +23,7 @@
     *=======================================* -->
     <nav id="nav" class="nav">
       <!-- ---=== CATEGORY ICON + TITLE ===--- -->
-      <section id="categories" class="nav__categories">
+      <section id="categories-nav" class="nav__categories">
         <!--* ICON CATEGORY *-->
         <div class="cat__icon icon__accessibility">
           <img src="./assets/images/icon-accessibility.svg" alt="" />
@@ -73,17 +73,19 @@
     *=========================================* -->
     <header id="home" class="welcome__container">
       <!-- ---=== TITLE / SUBTITLE ===--- -->
+      <!-- TITLE -->
       <section class="title__header">
         <div class="title">
           <span>Welcome to the</span>
           <h1>Frontend Quiz!</h1>
         </div>
+        <!-- SUBTITLE -->
         <h3 class="subtitle">Pick a subject to get started.</h3>
       </section>
 
-      <!-- ---=== CATEGORIES BUTTONS ===--- -->
+      <!-- BUTTON -->
       <section id="cat">
-        <div id="choose" class="choose">
+        <div id="categories-btn" class="categories__btn">
           <!-- <button class="btn" data-cat="HTML">
             <div class="category__icon icon__html">
               <img src="./assets/images/icon-html.svg" alt="" />
@@ -116,34 +118,39 @@
     <!-- *=========================================
                     * MAIN *
     *=========================================* -->
-    <main id="quiz" class="quiz__container">
-      <!-- ---=== SECTION QUESTION ===--- -->
-      <section class="quiz__header">
-        <div class="quiz__text">
-          <p class="quiz__progress">
-            Questions <span id="current-val"></span> of 10
-          </p>
-          <div id="question" class="quiz__question">
-            <!-- Question -->
-          </div>
-        </div>
-        <input id="progress-bar" type="range" min="1" max="10" value="1" />
-      </section>
-
-      <!-- ---=== SECTION ANSWERS ===--- -->
-      <section class="quiz__answers">
-        <div id="quiz-options" class="choose">
-          <!-- answer buttons -->
-        </div>
-
-        <!-- BUTTON SUBMIT -->
-        <div class="submit__container">
-          <button id="submit-btn" class="btn submit__btn">Submit Answer</button>
-          <div class="submit__error">
-            <div class="submit__error-icon">
-              <img src="./assets/images/icon-error.svg" alt="" />
+    <main class="quiz__container">
+      <!-- ---=== SECTION QUESTION / ANSWERS ===--- -->
+      <!-- QUESTION -->
+      <section id="quiz" class="quiz">
+        <div class="quiz__header">
+          <div class="quiz__text">
+            <p class="quiz__progress">
+              Questions <span id="current-val"></span> of 10
+            </p>
+            <div id="question" class="quiz__question">
+              <!-- Question -->
             </div>
-            <span>Please select an answer</span>
+          </div>
+          <input id="progress-bar" type="range" min="1" max="10" value="1" />
+        </div>
+
+        <!-- ANSWERS  -->
+        <div class="quiz__answers">
+          <div id="quiz-options" class="categories__btn">
+            <!-- answer buttons -->
+          </div>
+
+          <!-- BUTTON SUBMIT -->
+          <div class="submit__container">
+            <button id="submit-btn" class="btn submit__btn">
+              Submit Answer
+            </button>
+            <div class="submit__error">
+              <div class="submit__error-icon">
+                <img src="./assets/images/icon-error.svg" alt="" />
+              </div>
+              <span>Please select an answer</span>
+            </div>
           </div>
         </div>
       </section>
@@ -170,13 +177,13 @@
             <!-- SCORE -->
             <div class="display__score">
               <!-- à paramétrer .... -->
-              <h2>8</h2>
+              <h2 id="display-score"></h2>
               <!-- .... à paramétrer -->
               <span>out of 10</span>
             </div>
           </div>
 
-          <button class="btn score__btn">Play Again</button>
+          <button id="score-btn" class="btn score__btn">Play Again</button>
         </div>
       </section>
     </main>

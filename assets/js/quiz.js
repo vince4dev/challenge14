@@ -1,14 +1,54 @@
-const quiz = document.getElementById("quiz");
-const choose = document.getElementById("choose");
-const home = document.getElementById("home");
+// ------------------------------------------------------------------
+// --- DOM elements
+// ------------------------------------------------------------------
+const homeSection = document.getElementById("home");
+const quizSection = document.getElementById("quiz");
+const scoreSection = document.getElementById("score");
+const categoriesBtn = document.getElementById("categories-btn");
 const errorMessage = document.querySelector(".submit__error");
+const question = document.getElementById("question");
+const options = document.getElementById("quiz-options");
+const submitBtn = document.getElementById("submit-btn");
+const playAgain = document.getElementById("score-btn");
+const range = document.getElementById("progress-bar");
+const displayScore = document.getElementById("display-score");
+
+// ------------------------------------------------------------------
+// --- Initialisation
+// ------------------------------------------------------------------
+let quizData;
+let currentQuiz = null;
+let currentQuestionIndex = 0;
+let rangeIdx = 0;
+let score = 0;
+
+const letters = ["A", "B", "C", "D"];
+
+// ------------------------------------------------------------------
+// --- Fonction Init QUIZ
+// ------------------------------------------------------------------
+function initQuiz() {
+  valSpan.textContent = 0; // Init the score to 0
+  progressBar(valSpan.textContent); // Init to 0 the progress bar
+  loadQuizData(); // load the first page
+}
 
 // ------------------------------------------------------------------
 // --- Load the JSON
 // ------------------------------------------------------------------
-let quizData;
 
 async function loadQuizData() {
+  // init variables
+  currentQuiz = null;
+  currentQuestionIndex = 0;
+  rangeIdx = 0;
+  score = 0;
+  categoriesBtn.innerHTML = "";
+  homeSection.style.display = "none"; // hide home section
+  quizSection.style.display = "none"; // hide quiz section
+  scoreSection.style.display = "none"; // hide score section
+
+  // load the JSON datas
   const res = await fetch("./assets/data/quiz.json");
   quizData = await res.json();
   showHome();
@@ -18,14 +58,8 @@ async function loadQuizData() {
 // --- Show the category buttons
 // ------------------------------------------------------------------
 function showHome() {
-  currentQuiz = null;
-  // currentQuestionIndex = 0;
-
-  // hide quiz section
-  // quiz.style.display = "none";
-
-  // Delete categories
-  choose.innerHTML = "";
+  // show the home section
+  homeSection.style.display = "grid";
 
   // Displays categories
   quizData.quizzes.forEach((quiz, idx) => {
@@ -33,24 +67,20 @@ function showHome() {
     btn.className = "btn";
     btn.innerHTML = `<span class="cat__icon icon__${quiz.title.toLowerCase()}"><img src="${quiz.icon}" alt="" /></span>${quiz.title}`;
     btn.onclick = () => startQuiz(idx);
-    choose.appendChild(btn);
+    categoriesBtn.appendChild(btn);
   });
 }
 
 // ------------------------------------------------------------------
 // --- Start a quiz – initialise state and show first question
 // ------------------------------------------------------------------
-let currentQuiz = null;
-let currentQuestionIndex = 0;
-
 function startQuiz(catIndex) {
   // hide the category section
-  home.style.display = "none";
+  homeSection.style.display = "none";
   // show quiz section
-  quiz.style.display = "grid";
+  quizSection.style.display = "grid";
 
   currentQuiz = quizData.quizzes[catIndex];
-  // currentQuestionIndex = 0;
 
   showCurrentQuestion();
 }
@@ -59,12 +89,7 @@ function startQuiz(catIndex) {
 // --- Render a question and its answer options
 // ------------------------------------------------------------------
 function showCurrentQuestion() {
-  const question = document.getElementById("question");
-  const options = document.getElementById("quiz-options");
-  const letters = ["A", "B", "C", "D"];
-
-  const questionsObj = currentQuiz.questions[currentQuestionIndex];
-
+  questionsObj = currentQuiz.questions[currentQuestionIndex];
   // Delete question & answers
   question.innerHTML = "";
   options.innerHTML = "";
@@ -79,10 +104,8 @@ function showCurrentQuestion() {
     const btn = document.createElement("button");
     btn.className = "btn answer__btn";
 
-    // Letters A, B, C, D of the icons
-    const letter = letters[i] || String.fromCharCode(65 + i);
-    // HTML escape
-    const escapeOpt = escapeHtml(opt);
+    const letter = letters[i] || String.fromCharCode(65 + i); // Letters A, B, C, D of the icons
+    const escapeOpt = escapeHtml(opt); // HTML escape
 
     btn.innerHTML = `<span class="answer__status"><span class="cat__icon answer__icon">${letter}</span>${escapeOpt}</span>`;
 
@@ -104,7 +127,10 @@ function showCurrentQuestion() {
 // --- Check answer, give feedback and move on
 // ------------------------------------------------------------------
 function checkAnswer(selected) {
-  const questionsObj = currentQuiz.questions[currentQuestionIndex];
+  // add the score
+  if (selected === questionsObj.answer) {
+    score++;
+  }
 
   // Disable all answer buttons
   Array.from(document.querySelectorAll(".answer__btn")).forEach((btn) => {
@@ -135,23 +161,18 @@ function checkAnswer(selected) {
 }
 
 // ------------------------------------------------------------------
-// --- Click on Submit button
+// --- Click on Submit Answer button
 // ------------------------------------------------------------------
-const submitBtn = document.getElementById("submit-btn");
-let rangeIdx = 0;
-
 submitBtn.addEventListener("click", () => {
-  // We check if an answer is selected.
+  // Check if an answer is selected.
   const hasSelected = !!document.querySelector("#quiz-options .btn.selected");
-  // Check if selected answer
   if (!hasSelected) {
-    errorMessage.style.display = "flex";
+    errorMessage.style.display = "flex"; // Display "Please select an answer"
     return;
   }
 
   // Progress Bar
-  let rangeIdx = progressBar(valSpan.textContent);
-  console.log(rangeIdx);
+  rangeIdx = progressBar(valSpan.textContent);
   valSpan.textContent = rangeIdx;
 
   // Next question
@@ -164,9 +185,20 @@ submitBtn.addEventListener("click", () => {
 });
 
 // ------------------------------------------------------------------
-// --- Show a simple finish screen
+// --- Show score screen
 // ------------------------------------------------------------------
-function showSore() {}
+function showSore() {
+  displayScore.textContent = score;
+  // hide the quiz section
+  quizSection.style.display = "none";
+  // show score section
+  scoreSection.style.display = "grid";
+}
+
+// ------------------------------------------------------------------
+// --- Click on Score button
+// ------------------------------------------------------------------
+playAgain.addEventListener("click", initQuiz);
 
 // ------------------------------------------------------------------
 // --- Progress Bar
@@ -199,6 +231,29 @@ function createAnswerHTML(letter, value, iconURL) {
 }
 
 // ------------------------------------------------------------------
-// --- Load the Quiz
+// --- PROGRESS BAR (INPUT RANGE)
 // ------------------------------------------------------------------
-loadQuizData();
+function updatePercent(r) {
+  const min = parseFloat(r.min) || 1;
+  const max = parseFloat(r.max) || 10;
+  const val = parseFloat(r.value);
+
+  // Percentage calculation (1 to 10)
+  const percent = ((val - min) / (max - min)) * 100;
+
+  // hides the progress bar thumbnail
+  if (percent === 0) {
+    range.disabled = !range.disabled;
+  }
+
+  // The CSS variable is applied to the same element.
+  r.style.setProperty("--percent", percent + "%");
+
+  // Update the value in the span
+  if (valSpan) valSpan.textContent = Math.round(val);
+}
+
+// ------------------------------------------------------------------
+// --- LOAD THE QUIZ
+// ------------------------------------------------------------------
+document.addEventListener("DOMContentLoaded", initQuiz);
