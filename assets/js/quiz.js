@@ -6,7 +6,11 @@ const quizSection = document.getElementById("quiz");
 const scoreSection = document.getElementById("score");
 const categoriesBtn = document.getElementById("categories-btn");
 const categoriesNav = document.getElementById("categories-nav");
-const categoryIcon = document.getElementById("category-icon");
+const categoriesScore = document.getElementById("categories-score");
+const catIconNav = document.getElementById("cat-icon-nav");
+const catIconScore = document.getElementById("cat-icon-score");
+const catTitleNav = document.getElementById("cat-title-nav");
+const catTitleScore = document.getElementById("cat-title-score");
 const errorMessage = document.querySelector(".submit__error");
 const question = document.getElementById("question");
 const options = document.getElementById("quiz-options");
@@ -16,8 +20,10 @@ const range = document.getElementById("progress-bar");
 const displayScore = document.getElementById("display-score");
 const valSpan = document.getElementById("current-val");
 const themeSwitch = document.getElementById("theme-switch");
-const categoryTitle = document.getElementById("category-title");
-const catIcon = document.getElementById("cat-icon");
+const catIconNavContainer = document.getElementById("cat-icon-nav-container");
+const catIconScoreContainer = document.getElementById(
+  "cat-icon-score-container",
+);
 
 // ------------------------------------------------------------------
 // --- Initialisation
@@ -27,6 +33,8 @@ let currentQuiz = null;
 let currentQuestionIndex = 0;
 let rangeIdx = 0;
 let score = 0;
+let currentCatIcon = "";
+let currentCatTitle = "";
 
 const letters = ["A", "B", "C", "D"];
 
@@ -107,9 +115,9 @@ function showCurrentQuestion() {
   options.innerHTML = "";
 
   // Display the category top
-  categoryIcon.src = currentQuiz.icon;
-  categoryTitle.textContent = currentQuiz.title;
-  catIcon.classList.add(`icon__${currentQuiz.title.toLowerCase()}`);
+  catIconNav.src = currentQuiz.icon;
+  catTitleNav.textContent = currentQuiz.title;
+  catIconNavContainer.classList.add(`icon__${currentQuiz.title.toLowerCase()}`);
   categoriesNav.style.visibility = "visible"; // show category top
 
   // Displays the question
@@ -213,6 +221,13 @@ function showSore() {
   quizSection.style.display = "none";
   // show score section
   scoreSection.style.display = "grid";
+
+  // Display the category score
+  catIconScore.src = currentQuiz.icon;
+  catTitleScore.textContent = currentQuiz.title;
+  catIconScoreContainer.classList.add(
+    `icon__${currentQuiz.title.toLowerCase()}`,
+  );
 }
 
 // ------------------------------------------------------------------
