@@ -304,9 +304,3 @@ themeSwitch.addEventListener("change", () => {
     disabledDarkMode();
   }
 });
-
-// ------------------------------------------------------------------
-// --- DESKTOP - MEDIA QUERIES
-// ------------------------------------------------------------------
-if (window.matchMedia("(max-width: 1440px)").matches) {
-}
