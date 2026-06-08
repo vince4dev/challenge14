@@ -5,6 +5,8 @@ const homeSection = document.getElementById("home");
 const quizSection = document.getElementById("quiz");
 const scoreSection = document.getElementById("score");
 const categoriesBtn = document.getElementById("categories-btn");
+const categoriesNav = document.getElementById("categories-nav");
+const categoryIcon = document.getElementById("category-icon");
 const errorMessage = document.querySelector(".submit__error");
 const question = document.getElementById("question");
 const options = document.getElementById("quiz-options");
@@ -12,6 +14,10 @@ const submitBtn = document.getElementById("submit-btn");
 const playAgain = document.getElementById("score-btn");
 const range = document.getElementById("progress-bar");
 const displayScore = document.getElementById("display-score");
+const valSpan = document.getElementById("current-val");
+const themeSwitch = document.getElementById("theme-switch");
+const categoryTitle = document.getElementById("category-title");
+const catIcon = document.getElementById("cat-icon");
 
 // ------------------------------------------------------------------
 // --- Initialisation
@@ -23,6 +29,11 @@ let rangeIdx = 0;
 let score = 0;
 
 const letters = ["A", "B", "C", "D"];
+
+// ------------------------------------------------------------------
+// --- LOAD THE QUIZ
+// ------------------------------------------------------------------
+document.addEventListener("DOMContentLoaded", initQuiz);
 
 // ------------------------------------------------------------------
 // --- Fonction Init QUIZ
@@ -44,6 +55,7 @@ async function loadQuizData() {
   rangeIdx = 0;
   score = 0;
   categoriesBtn.innerHTML = "";
+  categoriesNav.style.visibility = "hidden"; // hide category top
   homeSection.style.display = "none"; // hide home section
   quizSection.style.display = "none"; // hide quiz section
   scoreSection.style.display = "none"; // hide score section
@@ -93,6 +105,12 @@ function showCurrentQuestion() {
   // Delete question & answers
   question.innerHTML = "";
   options.innerHTML = "";
+
+  // Display the category top
+  categoryIcon.src = currentQuiz.icon;
+  categoryTitle.textContent = currentQuiz.title;
+  catIcon.classList.add(`icon__${currentQuiz.title.toLowerCase()}`);
+  categoriesNav.style.visibility = "visible"; // show category top
 
   // Displays the question
   const quizQuestion = document.createElement("p");
@@ -179,6 +197,8 @@ submitBtn.addEventListener("click", () => {
   currentQuestionIndex++;
   if (currentQuestionIndex < currentQuiz.questions.length) {
     showCurrentQuestion();
+  } else if (currentQuestionIndex === currentQuiz.questions.length) {
+    submitBtn.textContent = "Display Score";
   } else {
     showSore();
   }
@@ -201,7 +221,7 @@ function showSore() {
 playAgain.addEventListener("click", initQuiz);
 
 // ------------------------------------------------------------------
-// --- Progress Bar
+// --- Progress Bar Update Index
 // ------------------------------------------------------------------
 function progressBar(rangeIdx) {
   if (rangeIdx < parseInt(range.max, 10)) {
@@ -210,24 +230,6 @@ function progressBar(rangeIdx) {
     updatePercent(range);
   }
   return rangeIdx;
-}
-
-// ------------------------------------------------------------------
-// --- HTML escape
-// ------------------------------------------------------------------
-function escapeHtml(str) {
-  return str.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-}
-
-// ------------------------------------------------------------------
-// --- Create answer with status Correct/incorrect
-// ------------------------------------------------------------------
-function createAnswerHTML(letter, value, iconURL) {
-  return (
-    `<span class="answer__status"><span class="cat__icon answer__icon">${letter}</span>` +
-    `${value}</span>` +
-    `<img src="${iconURL}" class="icon__check"/>`
-  );
 }
 
 // ------------------------------------------------------------------
@@ -254,6 +256,57 @@ function updatePercent(r) {
 }
 
 // ------------------------------------------------------------------
-// --- LOAD THE QUIZ
+// --- HTML escape
 // ------------------------------------------------------------------
-document.addEventListener("DOMContentLoaded", initQuiz);
+function escapeHtml(str) {
+  return str.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+// ------------------------------------------------------------------
+// --- Create answer with status Correct/incorrect
+// ------------------------------------------------------------------
+function createAnswerHTML(letter, value, iconURL) {
+  return (
+    `<span class="answer__status"><span class="cat__icon answer__icon">${letter}</span>` +
+    `${value}</span>` +
+    `<img src="${iconURL}" class="icon__check"/>`
+  );
+}
+
+// ------------------------------------------------------------------
+// --- DARKMODE
+// ------------------------------------------------------------------
+let darkmode = localStorage.getItem("darkmode");
+
+const enabledDarkMode = () => {
+  themeSwitch.classList.add("switch-checked");
+  document.body.classList.add("darkmode");
+  localStorage.setItem("darkmode", "active");
+};
+
+const disabledDarkMode = () => {
+  themeSwitch.classList.remove("switch-checked");
+  document.body.classList.remove("darkmode");
+  localStorage.setItem("darkmode", null);
+};
+
+darkmode = localStorage.getItem("darkmode");
+if (darkmode === "active") {
+  themeSwitch.checked = true;
+  themeSwitch.classList.add("switch-checked");
+  enabledDarkMode();
+}
+
+themeSwitch.addEventListener("change", () => {
+  if (themeSwitch.checked) {
+    enabledDarkMode();
+  } else {
+    disabledDarkMode();
+  }
+});
+
+// ------------------------------------------------------------------
+// --- DESKTOP - MEDIA QUERIES
+// ------------------------------------------------------------------
+if (window.matchMedia("(max-width: 1440px)").matches) {
+}
