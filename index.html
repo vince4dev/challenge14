@@ -28,7 +28,12 @@
       <section id="nav-category" class="nav__category">
         <!-- ICON CATEGORY -->
         <div id="cat-icon-nav-container" class="cat__icon">
-          <img id="nav-cat-icon" class="category__icon" src="" alt="" />
+          <img
+            id="nav-cat-icon"
+            class="category__icon"
+            src=""
+            alt="Category Image"
+          />
         </div>
         <!-- TITLE CATEGORY -->
         <p id="nav-cat-title" class="title__category"></p>
@@ -50,7 +55,12 @@
             />
           </svg>
         </div>
-        <input id="darkmode-switch" class="darkmode__switch" type="checkbox" />
+        <input
+          d="darkmode-switch"
+          class="darkmode__switch"
+          type="checkbox"
+          aria-label="Switch darkmode"
+        />
         <!-- ICON MOON -->
         <div class="icon__moon">
           <svg
@@ -107,7 +117,16 @@
               <!-- Question -->
             </div>
           </div>
-          <input id="progress-range" type="range" min="1" max="10" value="1" />
+          <input
+            id="progress-range"
+            type="range"
+            min="1"
+            max="10"
+            value="1"
+            aria-valuemin="1"
+            aria-valuemax="10"
+            aria-label="Progress bar"
+          />
         </div>
 
         <!-- ANSWERS  -->
@@ -121,7 +140,13 @@
             <button id="submit-btn" class="btn submit__btn">
               Submit Answer
             </button>
-            <div id="submit-error" class="submit__error">
+            <div
+              id="submit-error"
+              class="submit__error"
+              role="alert"
+              aria-live="polite"
+              aria-atomic="true"
+            >
               <div class="submit__error-icon">
                 <img src="./assets/images/icon-error.svg" alt="" />
               </div>
@@ -144,7 +169,12 @@
             <!-- ICON + CATEFGORY -->
             <div id="categories-score" class="score__category">
               <div id="cat-icon-score-container" class="cat__icon">
-                <img id="cat-icon-score" class="category__icon" src="" alt="" />
+                <img
+                  id="cat-icon-score"
+                  class="category__icon"
+                  src=""
+                  alt="Category Image"
+                />
               </div>
               <p id="cat-title-score" class="title__cat-score"></p>
             </div>

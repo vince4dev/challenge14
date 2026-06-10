@@ -57,7 +57,7 @@
   --clr-green-500: hsl(151, 68%, 52%);
   --clr-purple-100: hsl(278, 100%, 95%);
   --clr-purple-600: hsl(277, 91%, 56%);
-  --clr-purple-400: rgb(211, 148, 250);
+  --clr-purple-400: hsl(277, 91%, 78%);
   --clr-orange-50: hsl(27, 100%, 96%);
   --clr-orange-400: hsl(22, 100%, 60%);
   --clr-red-500: hsl(0, 82%, 63%);
@@ -91,11 +91,6 @@
   /* ---=== GAP ===--- */
   --gap-themes: 1rem;
   --gap-themes-mobile: 0.5rem;
-
-  /* ---=== CHECKBOX TOOGLE/SWITCH ===--- */
-  --check-toggle-size-with: 48px;
-  --check-toggle-back-size-mobile: 32px;
-  --check-toggle-back-size-mobile: 20px;
 }
 
 .darkmode {
@@ -402,6 +397,12 @@ body.darkmode {
 .btn:hover:not(:disabled) {
   outline: 3px solid var(--clr-purple-600);
 }
+.btn:focus-visible:not(:disabled) {
+  outline: none;
+  box-shadow: 0 0 0 3px rgb(167, 41, 245, 0.5);
+  transform: scale(1.02);
+  transition: all 0.2s ease;
+}
 .btn:hover:not(:disabled) .answer__icon {
   background-color: var(--clr-purple-600);
   color: var(--clr-white);
@@ -544,11 +545,15 @@ body.darkmode {
   color: var(--clr-white);
   justify-content: center;
   padding: 1.2rem;
+  transition: background-color 0.2s ease-in-out;
 }
 .submit__btn:hover,
 .score__btn:hover {
   background-color: var(--clr-purple-400);
-  outline: 1px solid var(--clr-purple-400) !important;
+}
+.submit__btn:active,
+.score__btn:active {
+  transform: scale(0.95);
 }
 .submit__error {
   display: none;

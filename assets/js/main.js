@@ -49,7 +49,7 @@ const View = {
     state.quizData.quizzes.forEach((quiz, idx) => {
       const btn = document.createElement("button");
       btn.className = "btn";
-      btn.innerHTML = `<span class="cat__icon icon__${quiz.title.toLowerCase()}"><img src="${quiz.icon}" alt="" /></span>${quiz.title}`;
+      btn.innerHTML = `<span class="cat__icon icon__${quiz.title.toLowerCase()}"><img src="${quiz.icon}" alt="Category Title" /></span>${quiz.title}`;
       btn.onclick = () => Controller.startQuiz(idx);
       UI.categoriesContainer.appendChild(btn);
     });
@@ -138,6 +138,7 @@ const View = {
     const percent = ((value - min) / (max - min)) * 100;
 
     UI.rangeInput.style.setProperty("--percent", percent + "%");
+    UI.rangeInput.setAttribute("aria-valuenow", value);
     UI.valSpan.textContent = Math.round(value);
 
     // Thumbnail management if percentage is 0
@@ -212,7 +213,7 @@ const Controller = {
   },
 
   nextQuestion() {
-    hasSelected = View.errorMessage();
+    const hasSelected = View.errorMessage();
 
     if (!hasSelected) {
       UI.errorMessage.style.display = "flex";
