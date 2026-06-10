@@ -160,10 +160,20 @@ const View = {
 // ==================================================================
 const Controller = {
   async fetchData(url) {
-    const res = await fetch(url);
-    const data = await res.json();
-    state.quizData = data;
-    return data;
+    try {
+      const res = await fetch(url);
+      if (!res.ok) {
+        throw new Error(`Erreur HTTP : ${res.status} ${res.statusText}`);
+      }
+      const data = await res.json();
+      state.quizData = data;
+      return data;
+    } catch (error) {
+      console.error(
+        "Erreur lors de la récupération des données :",
+        error.message,
+      );
+    }
   },
 
   startQuiz(quizIndex) {
