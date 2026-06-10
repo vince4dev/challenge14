@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="./assets/css/styles.css" />
 
     <!-- Javascript -->
-    <script src="./assets/js/main.js" defer></script>
+    <script src="./assets/js/quiz.js" defer></script>
 
     <title>Frontend Mentor | Frontend quiz app</title>
   </head>
@@ -24,19 +24,21 @@
     <!-- *=======================================
                     * NAV *
     *=======================================* -->
-    <nav class="nav__section">
-      <section id="nav-category" class="nav__category">
-        <!-- ICON CATEGORY -->
+    <nav id="nav" class="nav">
+      <!-- ---=== CATEGORY ICON + TITLE ===--- -->
+      <section id="categories-nav" class="nav__categories">
+        <!--* ICON CATEGORY *-->
         <div id="cat-icon-nav-container" class="cat__icon">
-          <img id="nav-cat-icon" class="category__icon" src="" alt="" />
+          <img id="cat-icon-nav" class="category__icon" src="" alt="" />
         </div>
-        <!-- TITLE CATEGORY -->
-        <p id="nav-cat-title" class="title__category"></p>
+        <!--* TITLE CATEGORY *-->
+        <p id="cat-title-nav" class="title__category"></p>
       </section>
 
-      <section class="nav__darkmode">
-        <!-- ICON SUN -->
-        <div class="icon__sun">
+      <!-- ---=== TOGGLE SWITCH DARKMODE ===--- -->
+      <section class="nav__themes">
+        <!--* ICON SUN *-->
+        <div class="icon__switch-sun">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -50,9 +52,9 @@
             />
           </svg>
         </div>
-        <input id="darkmode-switch" class="darkmode__switch" type="checkbox" />
-        <!-- ICON MOON -->
-        <div class="icon__moon">
+        <input id="theme-switch" class="theme__switch" type="checkbox" />
+        <!--* ICON MOON *-->
+        <div class="icon__switch-moon">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -72,20 +74,21 @@
     <!-- *=========================================
                     * HEADER *
     *=========================================* -->
-    <header>
-      <section id="home-section" class="home__section">
-        <div class="home__title">
-          <!-- TITLE -->
-          <div class="title">
-            <span>Welcome to the</span>
-            <h1>Frontend Quiz!</h1>
-          </div>
-          <!-- SUBTITLE -->
-          <h3 class="subtitle">Pick a subject to get started.</h3>
+    <header id="home" class="welcome__container">
+      <!-- ---=== TITLE / SUBTITLE ===--- -->
+      <!-- TITLE -->
+      <section class="title__header">
+        <div class="title">
+          <span>Welcome to the</span>
+          <h1>Frontend Quiz!</h1>
         </div>
+        <!-- SUBTITLE -->
+        <h3 class="subtitle">Pick a subject to get started.</h3>
+      </section>
 
-        <!-- CATEGORIES BUTTON -->
-        <div id="home-cat-btn" class="categories__btn">
+      <!-- BUTTON -->
+      <section id="cat">
+        <div id="categories-btn" class="categories__btn">
           <!-- Categories buttons -->
         </div>
       </section>
@@ -97,17 +100,17 @@
     <main class="quiz__container">
       <!-- ---=== SECTION QUESTION / ANSWERS ===--- -->
       <!-- QUESTION -->
-      <section id="quiz-section" class="quiz__section hidden">
+      <section id="quiz" class="quiz">
         <div class="quiz__header">
           <div class="quiz__text">
             <p class="quiz__progress">
-              Questions <span id="val-span"></span> of 10
+              Questions <span id="current-val"></span> of 10
             </p>
-            <div id="quiz-question" class="quiz__question">
+            <div id="question" class="quiz__question">
               <!-- Question -->
             </div>
           </div>
-          <input id="progress-range" type="range" min="1" max="10" value="1" />
+          <input id="progress-bar" type="range" min="1" max="10" value="1" />
         </div>
 
         <!-- ANSWERS  -->
@@ -121,7 +124,7 @@
             <button id="submit-btn" class="btn submit__btn">
               Submit Answer
             </button>
-            <div id="submit-error" class="submit__error">
+            <div class="submit__error">
               <div class="submit__error-icon">
                 <img src="./assets/images/icon-error.svg" alt="" />
               </div>
@@ -132,7 +135,7 @@
       </section>
 
       <!-- ---=== SECTION SCORE ===--- -->
-      <section id="score-section" class="score__section hidden">
+      <section id="score" class="quiz__score">
         <!-- TITLE SCORE -->
         <div class="title">
           <span>Quiz completed</span>
@@ -142,9 +145,9 @@
         <div class="screen__score-container">
           <div id="screen-score" class="screen__score">
             <!-- ICON + CATEFGORY -->
-            <div id="categories-score" class="score__category">
+            <div id="categories-score" class="nav__categories">
               <div id="cat-icon-score-container" class="cat__icon">
-                <img id="cat-icon-score" class="category__icon" src="" alt="" />
+                <img id="cat-icon-score" category-icon src="" alt="" />
               </div>
               <p id="cat-title-score" class="title__cat-score"></p>
             </div>

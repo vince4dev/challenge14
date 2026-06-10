@@ -1,40 +1,18 @@
 // ------------------------------------------------------------------
 // --- DOM elements
 // ------------------------------------------------------------------
-const homeSection = document.getElementById("home");
-const quizSection = document.getElementById("quiz");
-const scoreSection = document.getElementById("score");
 const categoriesBtn = document.getElementById("categories-btn");
 const categoriesNav = document.getElementById("categories-nav");
 const categoriesScore = document.getElementById("categories-score");
-const catIconNav = document.getElementById("cat-icon-nav");
-const catIconScore = document.getElementById("cat-icon-score");
-const catTitleNav = document.getElementById("cat-title-nav");
-const catTitleScore = document.getElementById("cat-title-score");
 const errorMessage = document.querySelector(".submit__error");
 const question = document.getElementById("question");
 const options = document.getElementById("quiz-options");
-const submitBtn = document.getElementById("submit-btn");
-const playAgain = document.getElementById("score-btn");
 const range = document.getElementById("progress-bar");
-const displayScore = document.getElementById("display-score");
-const valSpan = document.getElementById("current-val");
-const themeSwitch = document.getElementById("theme-switch");
-const catIconNavContainer = document.getElementById("cat-icon-nav-container");
-const catIconScoreContainer = document.getElementById(
-  "cat-icon-score-container",
-);
 
 // ------------------------------------------------------------------
 // --- Initialisation
 // ------------------------------------------------------------------
 let quizData;
-let currentQuiz = null;
-let currentQuestionIndex = 0;
-let rangeIdx = 1;
-let score = 0;
-let questionsObj;
-
 const letters = ["A", "B", "C", "D"];
 
 // ------------------------------------------------------------------
@@ -81,9 +59,6 @@ function showHome() {
 
   // Displays categories
   quizData.quizzes.forEach((quiz, idx) => {
-    const btn = document.createElement("button");
-    btn.className = "btn";
-    btn.innerHTML = `<span class="cat__icon icon__${quiz.title.toLowerCase()}"><img src="${quiz.icon}" alt="" /></span>${quiz.title}`;
     btn.onclick = () => startQuiz(idx);
     categoriesBtn.appendChild(btn);
   });
@@ -108,44 +83,11 @@ function startQuiz(catIndex) {
 // ------------------------------------------------------------------
 
 function showCurrentQuestion() {
-  questionsObj = currentQuiz.questions[currentQuestionIndex];
-  // Delete question & answers
-  question.innerHTML = "";
-  options.innerHTML = "";
-
-  // Display the category top
-  catIconNav.src = currentQuiz.icon;
-  catTitleNav.textContent = currentQuiz.title;
-  catIconNavContainer.classList.add(`icon__${currentQuiz.title.toLowerCase()}`);
-  categoriesNav.style.visibility = "visible"; // show category top
-
-  // Displays the question
-  const quizQuestion = document.createElement("p");
-  quizQuestion.textContent = questionsObj.question;
-  question.appendChild(quizQuestion);
-
-  // Displays Options
-  questionsObj.options.forEach((opt, i) => {
-    const btn = document.createElement("button");
-    btn.className = "btn answer__btn";
-
-    const letter = letters[i] || String.fromCharCode(65 + i); // Letters A, B, C, D of the icons
-    const escapeOpt = escapeHtml(opt); // HTML escape
-
-    btn.innerHTML = `<span class="answer__status"><span class="cat__icon answer__icon">${letter}</span>${escapeOpt}</span>`;
-
-    // The answer and letter are stored in a dataset
-    btn.dataset.value = opt;
-    btn.dataset.letter = letter;
-
-    btn.onclick = () => {
-      btn.classList.add("selected");
-      errorMessage.style.display = "none";
-      checkAnswer(opt);
-    };
-
-    options.appendChild(btn);
-  });
+  btn.onclick = () => {
+    btn.classList.add("selected");
+    errorMessage.style.display = "none";
+    checkAnswer(opt);
+  };
 }
 
 // ------------------------------------------------------------------
@@ -286,13 +228,6 @@ function updatePercent(r) {
 
   // Update the value in the span
   if (valSpan) valSpan.textContent = Math.round(val);
-}
-
-// ------------------------------------------------------------------
-// --- HTML escape
-// ------------------------------------------------------------------
-function escapeHtml(str) {
-  return str.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
 // ------------------------------------------------------------------
