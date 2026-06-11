@@ -104,7 +104,7 @@ const View = {
     btn.innerHTML = `<span class="answer__status"><span class="cat__icon answer__icon">${letter}</span>${this.escapeHtml(opt)}</span>`;
     btn.dataset.letter = letter;
     btn.dataset.value = opt;
-    btn.onclick = () => Controller.handleAnswerSelected(btn, opt);
+    btn.onclick = () => Controller.handleAnswerSelection(btn, opt);
 
     return btn;
   },
@@ -139,6 +139,7 @@ const View = {
 
     UI.rangeInput.style.setProperty("--percent", percent + "%");
     UI.rangeInput.setAttribute("aria-valuenow", value);
+    UI.valSpan.textContent = Math.round(value);
 
     // Thumbnail management if percentage is 0
     UI.rangeInput.disabled = percent === 0;
@@ -181,12 +182,6 @@ const Controller = {
     state.score = 0;
     state.rangeIdx = 1;
 
-    UI.valSpan.textContent = state.rangeIdx;
-    View.updateProgressBar(
-      state.rangeIdx,
-      state.currentQuiz.questions.length + 1,
-    );
-
     View.showSection("quiz");
     this.loadQuestion();
   },
@@ -195,78 +190,39 @@ const Controller = {
     state.questionsObj =
       state.currentQuiz.questions[state.currentQuestionIndex];
 
+    View.updateProgressBar(
+      state.rangeIdx,
+      state.currentQuiz.questions.length + 1,
+    );
     View.renderQuestion();
   },
 
-  handleAnswerSelected(btn, selectedValue) {
-    UI.optionsContainer.querySelectorAll(".answer__btn").forEach((b) => {
-      b.classList.remove("selected");
-    });
+  handleAnswerSelection(btn, selectedValue) {
+    const isCorrect = selectedValue === state.questionsObj.answer;
+    UI.errorMessage.style.display = "none";
     btn.classList.add("selected");
-    UI.errorMessage.style.display = "none";
-  },
 
-  validationQuestion() {
-    const textBtn = UI.submitBtn.textContent.trim();
+    // add the score
+    if (isCorrect) state.score++;
 
-    if (textBtn === "Next Question") {
-      this.nextQuestion();
-    }
-    if (textBtn === "Submit Answer") {
-      this.checkQuestion();
-    }
-    if (textBtn === "Display Score") {
-      this.finishQuiz();
-    }
-  },
+    // Disable all answer buttons
+    Array.from(UI.optionsContainer.querySelectorAll(".answer__btn")).forEach(
+      (b) => {
+        const btnValue = b.dataset.value;
+        b.disabled = true;
 
-  checkQuestion() {
-    UI.errorMessage.style.display = "none";
-    const selectedBtn = UI.optionsContainer.querySelector(".selected");
-
-    if (selectedBtn) {
-      const selectedValue = selectedBtn.getAttribute("data-value");
-      const isCorrect = selectedValue === state.questionsObj.answer;
-
-      // add the score
-      if (isCorrect) state.score++;
-
-      // Disable all answer buttons
-      Array.from(UI.optionsContainer.querySelectorAll(".answer__btn")).forEach(
-        (b) => {
-          const btnValue = b.dataset.value;
-          b.disabled = true;
-
-          if (btnValue === state.questionsObj.answer) {
-            b.dataset.status = "correct";
-            View.updateAnswerUI(b, true);
-          } else if (btnValue === selectedValue) {
-            b.dataset.status = "incorrect";
-            View.updateAnswerUI(b, false);
-          }
-        },
-      );
-
-      // Update Progress bar
-      state.currentQuestionIndex++;
-      state.rangeIdx++;
-      View.updateProgressBar(
-        state.currentQuestionIndex + 1,
-        state.currentQuiz.questions.length + 1,
-      );
-
-      if (state.currentQuestionIndex >= state.currentQuiz.questions.length) {
-        UI.submitBtn.textContent = "Display Score";
-      } else {
-        UI.submitBtn.textContent = "Next Question";
-      }
-    } else {
-      UI.errorMessage.style.display = "flex";
-    }
+        if (btnValue === state.questionsObj.answer) {
+          b.dataset.status = "correct";
+          View.updateAnswerUI(b, true);
+        } else if (btnValue === selectedValue) {
+          b.dataset.status = "incorrect";
+          View.updateAnswerUI(b, false);
+        }
+      },
+    );
   },
 
   nextQuestion() {
-    UI.submitBtn.textContent = "Submit Answer";
     const hasSelected = View.errorMessage();
 
     if (!hasSelected) {
@@ -276,9 +232,20 @@ const Controller = {
       UI.errorMessage.style.display = "none";
     }
 
+    state.currentQuestionIndex++;
     if (state.currentQuestionIndex < state.currentQuiz.questions.length) {
-      UI.valSpan.textContent = state.rangeIdx;
+      state.rangeIdx++;
       this.loadQuestion();
+    } else if (
+      state.currentQuestionIndex === state.currentQuiz.questions.length
+    ) {
+      UI.submitBtn.textContent = "Display Score";
+      View.updateProgressBar(
+        state.rangeIdx,
+        state.currentQuiz.questions.length,
+      );
+    } else {
+      this.finishQuiz();
     }
   },
 
@@ -318,7 +285,6 @@ const Controller = {
   },
 
   initQuiz() {
-    UI.submitBtn.textContent = "Submit Answer";
     View.renderCategories();
     View.showSection("home");
   },
@@ -328,7 +294,7 @@ const Controller = {
 //  CLICK BUTTONS
 // ==================================================================
 UI.playAgainBtn.onclick = () => Controller.initQuiz();
-UI.submitBtn.onclick = () => Controller.validationQuestion();
+UI.submitBtn.onclick = () => Controller.nextQuestion();
 
 // ==================================================================
 //  LOAD APPLICATION

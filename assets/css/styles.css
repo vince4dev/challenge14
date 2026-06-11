@@ -394,10 +394,8 @@ body.darkmode {
   align-items: center;
   gap: 1rem;
 }
-.btn:hover:not(:disabled) {
-  outline: 3px solid var(--clr-purple-600);
-}
-.btn:focus-visible:not(:disabled) {
+.btn:hover:not(:disabled),
+us-visible:not(:disabled) {
   outline: none;
   box-shadow: 0 0 0 3px rgb(167, 41, 245, 0.5);
   transform: scale(1.02);
@@ -479,6 +477,7 @@ body.darkmode {
   line-height: 120%;
   color: var(--clr-blue-900);
 }
+
 /* Darkmode ---------------------------------------*/
 .darkmode .quiz__progress {
   color: var(--clr-blue-300);
@@ -507,9 +506,6 @@ body.darkmode {
   background-color: var(--clr-red-500);
   color: var(--clr-white);
 }
-.btn[data-status="correct"] .answer__icon {
-  color: var(--clr-white);
-}
 .btn[data-status="incorrect"] .answer__icon {
   color: var(--clr-white);
 }
@@ -526,6 +522,13 @@ body.darkmode {
 }
 .answer__btn:disabled {
   cursor: not-allowed;
+}
+.answer__btn.selected {
+  outline: 3px solid var(--clr-purple-600);
+}
+.answer__btn.selected .answer__icon {
+  background-color: var(--clr-purple-600);
+  color: var(--clr-white);
 }
 .answer__icon {
   background-color: var(--clr-grey-50);
